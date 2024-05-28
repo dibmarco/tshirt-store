@@ -1,24 +1,23 @@
+import { useState } from "react";
+
 const shirts = [
   {
     id: 1,
     band: "Faith No More",
-    color: "black",
+    color: "blue",
   },
-
   {
     id: 2,
     band: "Metallica",
-    color: "black",
+    color: "grey",
   },
-
   {
-    id: 1,
+    id: 3,
     band: "Motorhead",
-    color: "black",
+    color: "orangered",
   },
-
   /* {
-    id: 2,
+    id: 4,
     band: "Anthrax",
     color: "black",
   }, */
@@ -51,8 +50,37 @@ function Header() {
 function Main() {
   return (
     <main>
-      {shirts.map((shirt) => <div className="shirt-container" key={shirt.id}>{shirt.band}</div>)}
+      {shirts.map((shirt) => (
+        <div className="shirt-container" key={shirt.id}>
+          <ShirtContent band={shirt.band} color={shirt.color} />
+        </div>
+      ))}
     </main>
+  );
+}
+
+function ShirtContent({ band, color }) {
+  const [bgColor, setBgColor] = useState("white");
+
+  function handleBgColor(color) {
+    /* if (bgColor !== "white") {
+      setBgColor("white");
+    } else {
+      setBgColor(color);
+      console.log(color);
+    } */
+
+    setBgColor((bgColor) => bgColor === "white" ? color : "white");
+  }
+
+  return (
+    <div
+      style={{ backgroundColor: bgColor }}
+      className="shirt-content"
+      onClick={() => handleBgColor(color)}
+    >
+      {band}
+    </div>
   );
 }
 
