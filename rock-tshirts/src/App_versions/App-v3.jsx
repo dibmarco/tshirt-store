@@ -12,17 +12,17 @@ const shirts = [
   {
     id: 2,
     band: "Metallica",
-    colors: ["white", "black", "gray"],
+    colors: ["white", "black"],
     sizes: ["s", "m", "l", "xl"],
-    imgs: ["./imgs/metallica_white.jpg", "./imgs/metallica_black.jpg", "./imgs/metallica_gray.jpg"],
+    imgs: ["./imgs/metallica_white.jpg", "./imgs/metallica_black.jpg"],
     price: [15.49],
   },
   {
     id: 3,
     band: "Motörhead",
-    colors: ["white", "black", "red"],
+    colors: ["white", "black"],
     sizes: ["s", "m"],
-    imgs: ["./imgs/motorhead_white.jpg", "./imgs/motorhead_black.jpg", "./imgs/motorhead_red.jpg"],
+    imgs: ["./imgs/motorhead_white.jpg", "./imgs/motorhead_black.jpg"],
     price: [15.49],
   },
   /* {
@@ -66,7 +66,6 @@ function Main() {
         <div className="shirt-container" key={shirt.id}>
           <ShirtContent
             band={shirt.band}
-            colors={shirt.colors}
             imgs={shirt.imgs}
             price={shirt.price}
           />
@@ -76,11 +75,11 @@ function Main() {
   );
 }
 
-function ShirtContent({ band, colors, imgs, price }) {
+function ShirtContent({ band, imgs, price }) {
   const [selectShirt, setSelectShirt] = useState(imgs[0]);
 
-  function handleSelectShirt(colorIndex) {
-    setSelectShirt(imgs[colorIndex]);
+  function handleSelectShirt(shirtColor) {
+    setSelectShirt(shirtColor);
   }
 
   return (
@@ -90,14 +89,8 @@ function ShirtContent({ band, colors, imgs, price }) {
       {price < 15 && <div className="sale">Sale</div>}
       <ShirtDrawer />
       <div className="color-selection">
-        {colors.map((color, index) => (
-          <div
-            key={index}
-            className={`color${index}`}
-            style={{ backgroundColor: color }}
-            onClick={() => handleSelectShirt(index)}
-          >{}</div>
-        ))}
+        <div className="color0" onClick={() => handleSelectShirt(imgs[0])}>{selectShirt === imgs[0] ? "✓" : ""}</div>
+        <div className="color1" onClick={() => handleSelectShirt(imgs[1])}>{selectShirt === imgs[1] ? "✓" : ""}</div>
       </div>
     </div>
   );
@@ -134,7 +127,7 @@ function ShirtDrawer() {
         </label>
         <input
           id="quantity"
-          className="tshirt-quantity"
+          class="tshirt-quantity"
           type="number"
           min="1"
           value="1"

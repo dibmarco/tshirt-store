@@ -12,17 +12,17 @@ const shirts = [
   {
     id: 2,
     band: "Metallica",
-    colors: ["white", "black", "gray"],
+    colors: ["white", "black"],
     sizes: ["s", "m", "l", "xl"],
-    imgs: ["./imgs/metallica_white.jpg", "./imgs/metallica_black.jpg", "./imgs/metallica_gray.jpg"],
+    imgs: ["./imgs/metallica_white.jpg", "./imgs/metallica_black.jpg"],
     price: [15.49],
   },
   {
     id: 3,
     band: "Motörhead",
-    colors: ["white", "black", "red"],
+    colors: ["white", "black"],
     sizes: ["s", "m"],
-    imgs: ["./imgs/motorhead_white.jpg", "./imgs/motorhead_black.jpg", "./imgs/motorhead_red.jpg"],
+    imgs: ["./imgs/motorhead_white.jpg", "./imgs/motorhead_black.jpg"],
     price: [15.49],
   },
   /* {
@@ -66,7 +66,6 @@ function Main() {
         <div className="shirt-container" key={shirt.id}>
           <ShirtContent
             band={shirt.band}
-            colors={shirt.colors}
             imgs={shirt.imgs}
             price={shirt.price}
           />
@@ -76,28 +75,30 @@ function Main() {
   );
 }
 
-function ShirtContent({ band, colors, imgs, price }) {
-  const [selectShirt, setSelectShirt] = useState(imgs[0]);
+function ShirtContent({ band, imgs, price }) {
+  const hasImages = imgs && imgs.length > 0;
+  const initialImgSrc = hasImages ? imgs[0] : null;
 
-  function handleSelectShirt(colorIndex) {
-    setSelectShirt(imgs[colorIndex]);
+  const [selectShirt, setSelectShirt] = useState(initialImgSrc);
+
+  function handletoggleShirt() {
+    if (imgs.length > 1) {
+      setSelectShirt((shirtImg) => (shirtImg === imgs[0] ? imgs[1] : imgs[0]));
+    }
   }
 
   return (
-    <div className="shirt-content">
-      <img className="shirt-image" src={selectShirt} alt={`${band} Shirt`} />
+    <div className="shirt-content" onClick={() => handletoggleShirt()}>
+      {initialImgSrc && (
+        <img className="shirt-image" src={selectShirt} alt={`${band} Shirt`} />
+      )}
+      {/* <div className="shirt-description">{band}</div> */}
       <div className="shirt-price">${price}</div>
       {price < 15 && <div className="sale">Sale</div>}
       <ShirtDrawer />
       <div className="color-selection">
-        {colors.map((color, index) => (
-          <div
-            key={index}
-            className={`color${index}`}
-            style={{ backgroundColor: color }}
-            onClick={() => handleSelectShirt(index)}
-          >{}</div>
-        ))}
+        <div className="color0">✓</div>
+        <div className="color1"></div>
       </div>
     </div>
   );
@@ -134,7 +135,7 @@ function ShirtDrawer() {
         </label>
         <input
           id="quantity"
-          className="tshirt-quantity"
+          class="tshirt-quantity"
           type="number"
           min="1"
           value="1"
