@@ -87,9 +87,22 @@ main {
 
   color: #000;
 
-  border: 1px solid red;
+  /* border: 1px solid red; */
 
   cursor: pointer;
+
+  position: relative;
+}
+
+.shirt-image {
+  display: block;
+  width: 100%;
+}
+
+.shirt-description {
+  position: absolute;
+  bottom: 1rem;
+  font-size: 1.2rem;
 }
 
 footer {

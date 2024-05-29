@@ -4,22 +4,26 @@ const shirts = [
   {
     id: 1,
     band: "Faith No More",
-    color: "blue",
+    colors: ["white", "black"],
+    imgs: ["./imgs/fnm_white.jpg", "./imgs/fnm_black.jpg"],
   },
   {
     id: 2,
     band: "Metallica",
-    color: "grey",
+    colors: ["white", "black"],
+    imgs: ["./imgs/metallica_white.jpg", "./imgs/metallica_black.jpg"],
   },
   {
     id: 3,
-    band: "Motorhead",
-    color: "orangered",
+    band: "Motörhead",
+    colors: ["white", "black"],
+    imgs: ["./imgs/motorhead_white.jpg", "./imgs/motorhead_black.jpg"],
   },
   /* {
     id: 4,
     band: "Anthrax",
-    color: "black",
+    colors: ["black"],
+    imgs: [],
   }, */
 ];
 
@@ -52,34 +56,29 @@ function Main() {
     <main>
       {shirts.map((shirt) => (
         <div className="shirt-container" key={shirt.id}>
-          <ShirtContent band={shirt.band} color={shirt.color} />
+          <ShirtContent band={shirt.band} imgs={shirt.imgs} />
         </div>
       ))}
     </main>
   );
 }
 
-function ShirtContent({ band, color }) {
-  const [bgColor, setBgColor] = useState("white");
+function ShirtContent({ band, imgs }) {
+  const hasImages = imgs && imgs.length > 0;
+  const initialImgSrc = hasImages ? imgs[0] : null;
 
-  function handleBgColor(color) {
-    /* if (bgColor !== "white") {
-      setBgColor("white");
-    } else {
-      setBgColor(color);
-      console.log(color);
-    } */
+  const [selectShirt, setSelectShirt] = useState(initialImgSrc);
 
-    setBgColor((bgColor) => bgColor === "white" ? color : "white");
+  function handletoggleShirt() {
+    if (imgs.length > 1) {
+      setSelectShirt((shirtImg) => (shirtImg === imgs[0] ? imgs[1] : imgs[0]));
+    }
   }
 
   return (
-    <div
-      style={{ backgroundColor: bgColor }}
-      className="shirt-content"
-      onClick={() => handleBgColor(color)}
-    >
-      {band}
+    <div className="shirt-content" onClick={() => handletoggleShirt()}>
+      {initialImgSrc && <img className="shirt-image" src={selectShirt} alt={`${band} Shirt`} />}
+      <div className="shirt-description">{band}</div>
     </div>
   );
 }
