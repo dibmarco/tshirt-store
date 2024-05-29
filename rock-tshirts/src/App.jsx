@@ -6,18 +6,21 @@ const shirts = [
     band: "Faith No More",
     colors: ["white", "black"],
     imgs: ["./imgs/fnm_white.jpg", "./imgs/fnm_black.jpg"],
+    prices: [15.99, 12.99],
   },
   {
     id: 2,
     band: "Metallica",
     colors: ["white", "black"],
     imgs: ["./imgs/metallica_white.jpg", "./imgs/metallica_black.jpg"],
+    prices: [17.99, 15.99],
   },
   {
     id: 3,
     band: "Motörhead",
     colors: ["white", "black"],
     imgs: ["./imgs/motorhead_white.jpg", "./imgs/motorhead_black.jpg"],
+    prices: [14.99, 17.99],
   },
   /* {
     id: 4,
@@ -77,7 +80,9 @@ function ShirtContent({ band, imgs }) {
 
   return (
     <div className="shirt-content" onClick={() => handletoggleShirt()}>
-      {initialImgSrc && <img className="shirt-image" src={selectShirt} alt={`${band} Shirt`} />}
+      {initialImgSrc && (
+        <img className="shirt-image" src={selectShirt} alt={`${band} Shirt`} />
+      )}
       <div className="shirt-description">{band}</div>
     </div>
   );
@@ -86,7 +91,17 @@ function ShirtContent({ band, imgs }) {
 function Footer() {
   return (
     <footer>
-      <p>Social Media</p>
+      <div className="social-icons">
+        <a href="https://instagram.com/" target="_blank">
+          <i className="fab fa-instagram"></i>
+        </a>
+        <a href="https://tiktok.com/" target="_blank">
+          <i className="fa-brands fa-tiktok"></i>
+        </a>
+        <a href="https://pinterest.com/" target="_blank">
+          <i className="fa-brands fa-pinterest"></i>
+        </a>
+      </div>
     </footer>
   );
 }

@@ -6,6 +6,15 @@
   box-sizing: border-box;
 }
 
+a {
+  color: #000;
+  transition: opacity 0.5s ease;
+}
+
+a:hover {
+  opacity: 80%;
+}
+
 body {
   font-size: 62.5%;
   font-family: "Inter", monospace;
@@ -74,10 +83,18 @@ main {
 
   width: 20rem;
   height: 25rem;
+  border: 1px solid white;
+
+  transition: border 0.5s ease;
+}
+
+.shirt-container:hover {
   border: 1px solid black;
 }
 
 .shirt-content {
+  position: relative;
+  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,8 +107,6 @@ main {
   /* border: 1px solid red; */
 
   cursor: pointer;
-
-  position: relative;
 }
 
 .shirt-image {
@@ -102,12 +117,26 @@ main {
 .shirt-description {
   position: absolute;
   bottom: 1rem;
+
+  width: 100%;
   font-size: 1.2rem;
+  text-align: center;
+
+  /* border: 1px solid blue; */
 }
 
 footer {
   width: 70%;
   margin: 0 auto;
-  font-size: 1.5rem;
+  font-size: 2rem;
   border-top: 1px solid black;
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+
+  padding: 1rem;
 }
