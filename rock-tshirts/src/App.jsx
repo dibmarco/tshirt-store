@@ -7,7 +7,7 @@ const shirts = [
     colors: ["white", "black"],
     sizes: ["s", "m", "l"],
     imgs: ["./imgs/fnm_white.jpg", "./imgs/fnm_black.jpg"],
-    price: [12.49],
+    price: 12.49,
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const shirts = [
       "./imgs/metallica_black.jpg",
       "./imgs/metallica_gray.jpg",
     ],
-    price: [15.49],
+    price: 15.49,
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ const shirts = [
       "./imgs/motorhead_black.jpg",
       "./imgs/motorhead_red.jpg",
     ],
-    price: [15.49],
+    price: 15.49,
   },
   /* {
     id: 4,
@@ -85,10 +85,15 @@ function Main() {
 }
 
 function ShirtContent({ band, colors, imgs, price }) {
-  const [selectShirt, setSelectShirt] = useState(imgs[0]);
+  const [selectColor, setSelectColor] = useState(imgs[0]);
+  const [selectQuantity, setSelectQuantity] = useState(1);
 
-  function handleSelectShirt(colorIndex) {
-    setSelectShirt(imgs[colorIndex]);
+  function handleSelectColor(colorIndex) {
+    setSelectColor(imgs[colorIndex]);
+  }
+
+  function handleSelectQuantity(newQuantity) {
+    setSelectQuantity(newQuantity);
   }
 
   // Helper function to determine text color based on background color
@@ -102,19 +107,22 @@ function ShirtContent({ band, colors, imgs, price }) {
 
   return (
     <div className="shirt-content">
-      <img className="shirt-image" src={selectShirt} alt={`${band} Shirt`} />
+      <img className="shirt-image" src={selectColor} alt={`${band} Shirt`} />
       <div className="shirt-price">${price}</div>
       {price < 15 && <div className="sale">Sale</div>}
-      <ShirtDrawer />
+      <ShirtDrawer
+        quantity={selectQuantity}
+        onSelectQuantity={handleSelectQuantity}
+      />
       <div className="color-selection">
         {colors.map((color, index) => (
           <div
             key={index}
             className={`color${index}`}
             style={{ backgroundColor: color, color: getTextColor(color) }}
-            onClick={() => handleSelectShirt(index)}
+            onClick={() => handleSelectColor(index)}
           >
-            {selectShirt === imgs[index] ? "✓" : ""}
+            {selectColor === imgs[index] ? "✓" : ""}
           </div>
         ))}
       </div>
@@ -122,11 +130,21 @@ function ShirtContent({ band, colors, imgs, price }) {
   );
 }
 
-function ShirtDrawer() {
+function ShirtDrawer({ quantity, onSelectQuantity }) {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   function handleOpenDrawer() {
     setOpenDrawer(!openDrawer);
+  }
+
+  function handleIncreaseQuantity() {
+    onSelectQuantity(quantity + 1);
+  }
+
+  function handleDecreaseQuantity() {
+    if (quantity > 1) {
+      onSelectQuantity(quantity - 1);
+    }
   }
 
   return (
@@ -139,7 +157,7 @@ function ShirtDrawer() {
       </p>
 
       <div className="shirt-selections">
-        <label for="size" className="label-size">
+        <label htmlFor="size" className="label-size">
           Size:
         </label>
         <select id="size" className="tshirt-size">
@@ -148,17 +166,18 @@ function ShirtDrawer() {
           <option value="large">Large</option>
         </select>
 
-        <label for="quantity" className="label-quantity">
+        <label htmlFor="quantity" className="label-quantity">
           Quantity:
         </label>
-        <input
-          id="quantity"
-          className="tshirt-quantity"
-          type="number"
-          min="1"
-          value="1"
-        />
-
+        <div className="tshirt-quantity">
+          <div className="minus-shirt" onClick={() => handleDecreaseQuantity()}>
+            -
+          </div>
+          <div className="quantity-value">{quantity}</div>
+          <div className="plus-shirt" onClick={() => handleIncreaseQuantity()}>
+            +
+          </div>
+        </div>
         <button className="addtocart-btn">Add to Cart</button>
       </div>
     </div>
@@ -169,13 +188,21 @@ function Footer() {
   return (
     <footer>
       <div className="social-icons">
-        <a href="https://instagram.com/" target="_blank">
+        <a
+          href="https://instagram.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <i className="fab fa-instagram"></i>
         </a>
-        <a href="https://pinterest.com/" target="_blank">
+        <a
+          href="https://pinterest.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <i className="fa-brands fa-pinterest"></i>
         </a>
-        <a href="https://tiktok.com/" target="_blank">
+        <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer">
           <i className="fa-brands fa-tiktok"></i>
         </a>
       </div>
