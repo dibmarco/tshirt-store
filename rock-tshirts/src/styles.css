@@ -203,15 +203,6 @@ main {
   cursor: pointer;
 }
 
-.color-selection > .color0 {
-  background-color: white;
-}
-
-.color-selection > .color1 {
-  background-color: black;
-  color: white;
-}
-
 .shirt-drawer {
   position: absolute;
   bottom: -11.5rem;

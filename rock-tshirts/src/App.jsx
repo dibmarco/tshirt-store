@@ -14,7 +14,11 @@ const shirts = [
     band: "Metallica",
     colors: ["white", "black", "gray"],
     sizes: ["s", "m", "l", "xl"],
-    imgs: ["./imgs/metallica_white.jpg", "./imgs/metallica_black.jpg", "./imgs/metallica_gray.jpg"],
+    imgs: [
+      "./imgs/metallica_white.jpg",
+      "./imgs/metallica_black.jpg",
+      "./imgs/metallica_gray.jpg",
+    ],
     price: [15.49],
   },
   {
@@ -22,7 +26,11 @@ const shirts = [
     band: "Motörhead",
     colors: ["white", "black", "red"],
     sizes: ["s", "m"],
-    imgs: ["./imgs/motorhead_white.jpg", "./imgs/motorhead_black.jpg", "./imgs/motorhead_red.jpg"],
+    imgs: [
+      "./imgs/motorhead_white.jpg",
+      "./imgs/motorhead_black.jpg",
+      "./imgs/motorhead_red.jpg",
+    ],
     price: [15.49],
   },
   /* {
@@ -83,6 +91,15 @@ function ShirtContent({ band, colors, imgs, price }) {
     setSelectShirt(imgs[colorIndex]);
   }
 
+  // Helper function to determine text color based on background color
+  function getTextColor(backgroundColor) {
+    const color = backgroundColor.toLowerCase();
+    if (color === "black") {
+      return "white";
+    }
+    return "black";
+  }
+
   return (
     <div className="shirt-content">
       <img className="shirt-image" src={selectShirt} alt={`${band} Shirt`} />
@@ -94,9 +111,11 @@ function ShirtContent({ band, colors, imgs, price }) {
           <div
             key={index}
             className={`color${index}`}
-            style={{ backgroundColor: color }}
+            style={{ backgroundColor: color, color: getTextColor(color) }}
             onClick={() => handleSelectShirt(index)}
-          >{}</div>
+          >
+            {selectShirt === imgs[index] ? "✓" : ""}
+          </div>
         ))}
       </div>
     </div>
