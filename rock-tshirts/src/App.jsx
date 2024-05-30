@@ -30,7 +30,7 @@ const shirts = [
       "./imgs/motorhead_black.jpg",
       "./imgs/motorhead_red.jpg",
     ],
-    sizes: ["s", "m", "xl"],
+    sizes: ["s", "m"],
     price: 15.49,
   },
   /* {
