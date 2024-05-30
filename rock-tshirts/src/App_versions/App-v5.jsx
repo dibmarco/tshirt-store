@@ -4,107 +4,6 @@ const shirts = [
   {
     id: 1,
     band: "Faith No More",
-    CSQ: [
-      {
-        color: "white",
-        img: "./imgs/fnm_white.jpg",
-        SQ: [
-          { size: "s", quantity: 3 },
-          { size: "m", quantity: 3 },
-          { size: "l", quantity: 2 },
-          { size: "xl", quantity: 1 },
-        ],
-      },
-      {
-        color: "black",
-        img: "./imgs/fnm_black.jpg",
-        SQ: [
-          { size: "s", quantity: 2 },
-          { size: "m", quantity: 3 },
-          { size: "l", quantity: 4 },
-        ],
-      },
-    ],
-    price: 12.49,
-  },
-
-  {
-    id: 2,
-    band: "Metallica",
-    CSQ: [
-      {
-        color: "white",
-        img: "./imgs/metallica_white.jpg",
-        SQ: [
-          { size: "s", quantity: 2 },
-          { size: "m", quantity: 4 },
-          { size: "l", quantity: 3 },
-        ],
-      },
-      {
-        color: "black",
-        img: "./imgs/metallica_black.jpg",
-        SQ: [
-          { size: "s", quantity: 2 },
-          { size: "m", quantity: 3 },
-          { size: "l", quantity: 4 },
-          { size: "xl", quantity: 2 },
-        ],
-      },
-      {
-        color: "gray",
-        img: "./imgs/metallica_gray.jpg",
-        SQ: [
-          /* { size: "s", quantity: 1 }, */
-          { size: "m", quantity: 3 },
-          { size: "l", quantity: 2 },
-        ],
-      },
-    ],
-    price: 15.49,
-  },
-
-  {
-    id: 3,
-    band: "Motörhead",
-    CSQ: [
-      {
-        color: "white",
-        img: "./imgs/motorhead_white.jpg",
-        SQ: [
-          { size: "s", quantity: 2 },
-          { size: "m", quantity: 4 },
-          { size: "l", quantity: 3 },
-        ],
-      },
-      {
-        color: "black",
-        img: "./imgs/motorhead_black.jpg",
-        SQ: [
-          { size: "s", quantity: 2 },
-          { size: "m", quantity: 3 },
-          { size: "l", quantity: 4 },
-        ],
-      },
-      {
-        color: "red",
-        img: "./imgs/motorhead_red.jpg",
-        SQ: [
-          /* { size: "s", quantity: 3 }, */
-          { size: "m", quantity: 2 },
-          /* { size: "l", quantity: 5 }, */
-          { size: "xl", quantity: 5 },
-        ],
-      },
-    ],
-    price: 15.49,
-  },
-];
-
-/* const shirts = [
-  {
-    id: 1,
-    band: "Faith No More",
     colors: ["white", "black"],
     imgs: ["./imgs/fnm_white.jpg", "./imgs/fnm_black.jpg"],
     sizes: ["s", "m", "l"],
@@ -134,15 +33,15 @@ const shirts = [
     sizes: ["s", "m"],
     price: 15.49,
   },
-  {
+  /* {
     id: 4,
     band: "Anthrax",
     colors: ["black"],
     imgs: [],
     sizes: ["s", "m", "l"],
     price: [12.49],
-  },
-]; */
+  }, */
+];
 
 function App() {
   return (
@@ -175,7 +74,9 @@ function Main() {
         <div className="shirt-container" key={shirt.id}>
           <ShirtContent
             band={shirt.band}
-            CSQ={shirt.CSQ}
+            colors={shirt.colors}
+            imgs={shirt.imgs}
+            sizes={shirt.sizes}
             price={shirt.price}
           />
         </div>
@@ -184,19 +85,17 @@ function Main() {
   );
 }
 
-function ShirtContent({ band, CSQ, price }) {
-  const [selectColorIndex, setSelectColorIndex] = useState(0);
+function ShirtContent({ band, colors, imgs, sizes, price }) {
+  const [selectColor, setSelectColor] = useState(imgs[0]);
   const [selectQuantity, setSelectQuantity] = useState(1);
 
-  function handleSelectColor(index) {
-    setSelectColorIndex(index);
+  function handleSelectColor(colorIndex) {
+    setSelectColor(imgs[colorIndex]);
   }
 
   function handleSelectQuantity(newQuantity) {
     setSelectQuantity(newQuantity);
   }
-
-  const selectedColor = CSQ[selectColorIndex];
 
   // Helper function to determine text color based on background color
   function getTextColor(backgroundColor) {
@@ -209,22 +108,23 @@ function ShirtContent({ band, CSQ, price }) {
 
   return (
     <div className="shirt-content">
-      <img className="shirt-image" src={selectedColor.img} alt={`${band} Shirt`} />
+      <img className="shirt-image" src={selectColor} alt={`${band} Shirt`} />
       <div className="shirt-price">${price}</div>
       {price < 15 && <div className="sale">Sale</div>}
       <ShirtDrawer
         quantity={selectQuantity}
         onSelectQuantity={handleSelectQuantity}
-        sizes={selectedColor.SQ}
+        sizes={sizes}
       />
       <div className="color-selection">
-        {CSQ.map((colorItem, index) => (
+        {colors.map((color, index) => (
           <div
             key={index}
-            style={{ backgroundColor: colorItem.color, color: getTextColor(colorItem.color) }}
+            className={`color${index}`}
+            style={{ backgroundColor: color, color: getTextColor(color) }}
             onClick={() => handleSelectColor(index)}
           >
-            {selectColorIndex === index ? "✓" : ""}
+            {selectColor === imgs[index] ? "✓" : ""}
           </div>
         ))}
       </div>
@@ -251,10 +151,10 @@ function ShirtDrawer({ sizes, quantity, onSelectQuantity }) {
 
   // Helper function to display size in full
   function sizeInitial(sizeInitial) {
-    if (sizeInitial === "s") return "Small";
-    if (sizeInitial === "m") return "Medium";
-    if (sizeInitial === "l") return "Large";
-    if (sizeInitial === "xl") return "X Large";
+    if (sizeInitial === "s") return "Small"; 
+    if (sizeInitial === "m") return "Medium"; 
+    if (sizeInitial === "l") return "Large"; 
+    if (sizeInitial === "xl") return "X Large"; 
   }
 
   return (
@@ -271,11 +171,7 @@ function ShirtDrawer({ sizes, quantity, onSelectQuantity }) {
           Size:
         </label>
         <select id="size" className="tshirt-size">
-          {sizes.map((sizeItem, index) => (
-            <option key={index} value={sizeItem.size}>
-              {sizeInitial(sizeItem.size)}
-            </option>
-          ))}
+          {sizes.map((size, index) => <option key={index} value={size}>{sizeInitial(size)}</option>)}
         </select>
 
         <label htmlFor="quantity" className="label-quantity">
