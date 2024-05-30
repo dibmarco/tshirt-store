@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const shirts = [
   {
@@ -139,23 +139,10 @@ function Main() {
 
 function ShirtContent({ band, CSQ, price }) {
   const [selectColorIndex, setSelectColorIndex] = useState(0);
-  const [selectSize, setSelectSize] = useState(CSQ[0].SQ[0].size);
   const [selectQuantity, setSelectQuantity] = useState(1);
-
-  // Hook to log current state after update
-  useEffect(() => {
-    console.log("Selected size:", selectSize);
-  }, [selectSize]);
 
   function handleSelectColor(index) {
     setSelectColorIndex(index);
-    setSelectSize(CSQ[index].SQ[0].size); // Update the initial size when color changes
-  }
-
-  function handleSelectSize(event) {
-    const newSize = event.target.value;
-    setSelectSize(newSize);
-    /* console.log(selectSize) // shows value of previous state */
   }
 
   function handleSelectQuantity(newQuantity) {
@@ -184,8 +171,6 @@ function ShirtContent({ band, CSQ, price }) {
       {price < 15 && <div className="sale">Sale</div>}
       <ShirtDrawer
         quantity={selectQuantity}
-        selectSize={selectSize}
-        onSelectSize={handleSelectSize}
         onSelectQuantity={handleSelectQuantity}
         sizes={selectedColor.SQ}
       />
@@ -207,7 +192,7 @@ function ShirtContent({ band, CSQ, price }) {
   );
 }
 
-function ShirtDrawer({ sizes, quantity, selectSize, onSelectSize, onSelectQuantity }) {
+function ShirtDrawer({ sizes, quantity, onSelectQuantity }) {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   function handleOpenDrawer() {
@@ -245,7 +230,7 @@ function ShirtDrawer({ sizes, quantity, selectSize, onSelectSize, onSelectQuanti
         <label htmlFor="size" className="label-size">
           Size:
         </label>
-        <select id="size" className="tshirt-size" value={selectSize} onChange={(event) => onSelectSize(event)}>
+        <select id="size" className="tshirt-size">
           {sizes.map((sizeItem, index) => (
             <option key={index} value={sizeItem.size}>
               {sizeInitial(sizeItem.size)}
