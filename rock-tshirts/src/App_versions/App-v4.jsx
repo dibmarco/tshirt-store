@@ -5,8 +5,8 @@ const shirts = [
     id: 1,
     band: "Faith No More",
     colors: ["white", "black"],
-    imgs: ["./imgs/fnm_white.jpg", "./imgs/fnm_black.jpg"],
     sizes: ["s", "m", "l"],
+    imgs: ["./imgs/fnm_white.jpg", "./imgs/fnm_black.jpg"],
     price: 12.49,
   },
   {
@@ -114,7 +114,6 @@ function ShirtContent({ band, colors, imgs, sizes, price }) {
       <ShirtDrawer
         quantity={selectQuantity}
         onSelectQuantity={handleSelectQuantity}
-        sizes={sizes}
       />
       <div className="color-selection">
         {colors.map((color, index) => (
@@ -132,7 +131,7 @@ function ShirtContent({ band, colors, imgs, sizes, price }) {
   );
 }
 
-function ShirtDrawer({ sizes, quantity, onSelectQuantity }) {
+function ShirtDrawer({ quantity, onSelectQuantity }) {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   function handleOpenDrawer() {
@@ -149,14 +148,6 @@ function ShirtDrawer({ sizes, quantity, onSelectQuantity }) {
     }
   }
 
-  // Helper function to display size in full
-  function sizeInitial(sizeInitial) {
-    if (sizeInitial === "s") return "Small"; 
-    if (sizeInitial === "m") return "Medium"; 
-    if (sizeInitial === "l") return "Large"; 
-    if (sizeInitial === "xl") return "X Large"; 
-  }
-
   return (
     <div
       className="shirt-drawer"
@@ -171,7 +162,9 @@ function ShirtDrawer({ sizes, quantity, onSelectQuantity }) {
           Size:
         </label>
         <select id="size" className="tshirt-size">
-          {sizes.map((size, index) => <option key={index} value={size}>{sizeInitial(size)}</option>)}
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
         </select>
 
         <label htmlFor="quantity" className="label-quantity">
