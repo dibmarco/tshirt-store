@@ -35,6 +35,8 @@ body {
 header,
 footer {
   text-align: center;
+  width: 70%;
+  margin: 0 auto;
 }
 
 header > h1 {
@@ -47,7 +49,6 @@ header > nav > ul {
   justify-content: center;
   gap: 5rem;
 
-  width: 70%;
   margin: 1rem auto 0 auto;
 
   border-top: 1px solid black;

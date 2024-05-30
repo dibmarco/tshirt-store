@@ -141,6 +141,7 @@ function ShirtContent({ band, CSQ, price }) {
   const [selectColorIndex, setSelectColorIndex] = useState(0);
   const [selectSize, setSelectSize] = useState(CSQ[0].SQ[0].size);
   const [selectQuantity, setSelectQuantity] = useState(1);
+  const [availableUnits, setAvailableUnits] = useState(CSQ[0].SQ[0].quantity);
 
   // Hook to log current state to the console after updating
   useEffect(() => {
@@ -150,12 +151,21 @@ function ShirtContent({ band, CSQ, price }) {
   function handleSelectColor(index) {
     setSelectColorIndex(index);
     setSelectSize(CSQ[index].SQ[0].size); // Update the initial size when color changes
+    setAvailableUnits(CSQ[index].SQ[0].quantity); // Update available units when color changes
+    setSelectQuantity(1); // Reset quantity to 1 when color change
   }
 
   function handleSelectSize(event) {
     const newSize = event.target.value;
     setSelectSize(newSize);
     /* console.log(selectSize) // shows value of previous state */
+
+    // Update the available units based on the selected size
+    const sizeItem = CSQ[selectColorIndex].SQ.find(item => item.size === newSize);
+    if (sizeItem) {
+      setAvailableUnits(sizeItem.quantity);
+    }
+    setSelectQuantity(1); // Reset quantity to 1 when size changes
   }
 
   function handleSelectQuantity(newQuantity) {
@@ -184,9 +194,10 @@ function ShirtContent({ band, CSQ, price }) {
       {price < 15 && <div className="sale">Sale</div>}
       <ShirtDrawer
         quantity={selectQuantity}
+        onSelectQuantity={handleSelectQuantity}
+        availableUnits={availableUnits} // Pass the available units
         selectSize={selectSize}
         onSelectSize={handleSelectSize}
-        onSelectQuantity={handleSelectQuantity}
         sizes={selectedColor.SQ}
       />
       <div className="color-selection">
@@ -207,7 +218,7 @@ function ShirtContent({ band, CSQ, price }) {
   );
 }
 
-function ShirtDrawer({ sizes, quantity, selectSize, onSelectSize, onSelectQuantity }) {
+function ShirtDrawer({ quantity, onSelectQuantity, availableUnits, selectSize, onSelectSize, sizes }) {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   function handleOpenDrawer() {
@@ -215,7 +226,9 @@ function ShirtDrawer({ sizes, quantity, selectSize, onSelectSize, onSelectQuanti
   }
 
   function handleIncreaseQuantity() {
-    onSelectQuantity(quantity + 1);
+    if (quantity < availableUnits) {
+      onSelectQuantity(quantity + 1);
+    }
   }
 
   function handleDecreaseQuantity() {
