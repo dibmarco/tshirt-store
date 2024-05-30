@@ -142,7 +142,7 @@ function ShirtContent({ band, CSQ, price }) {
   const [selectSize, setSelectSize] = useState(CSQ[0].SQ[0].size);
   const [selectQuantity, setSelectQuantity] = useState(1);
 
-  // Hook to log current state after update
+  // Hook to log current state to the console after updating
   useEffect(() => {
     console.log("Selected size:", selectSize);
   }, [selectSize]);
