@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const shirts = [
   {
@@ -27,6 +27,7 @@ const shirts = [
     ],
     price: 12.49,
   },
+
   {
     id: 2,
     band: "Metallica",
@@ -54,6 +55,7 @@ const shirts = [
         color: "gray",
         img: "./imgs/metallica_gray.jpg",
         SQ: [
+          /* { size: "s", quantity: 1 }, */
           { size: "m", quantity: 3 },
           { size: "l", quantity: 2 },
         ],
@@ -61,6 +63,7 @@ const shirts = [
     ],
     price: 15.49,
   },
+
   {
     id: 3,
     band: "Motörhead",
@@ -87,7 +90,9 @@ const shirts = [
         color: "red",
         img: "./imgs/motorhead_red.jpg",
         SQ: [
+          /* { size: "s", quantity: 3 }, */
           { size: "m", quantity: 2 },
+          /* { size: "l", quantity: 5 }, */
           { size: "xl", quantity: 5 },
         ],
       },
@@ -97,22 +102,10 @@ const shirts = [
 ];
 
 function App() {
-  const [bagPopupVisible, setBagPopupVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-
-  function handleAddToBagPopup(item) {
-    setSelectedItem(item);
-    setBagPopupVisible(true);
-    setTimeout(() => {
-      setBagPopupVisible(false);
-    }, 2500);
-  }
-
   return (
     <div className="content-wrapper">
       <Header />
-      <Main handleAddToBagPopup={handleAddToBagPopup} />
-      <BagPopUp bagPopupVisible={bagPopupVisible} selectedItem={selectedItem} />
+      <Main />
       <Footer />
     </div>
   );
@@ -132,49 +125,28 @@ function Header() {
   );
 }
 
-function BagPopUp({ bagPopupVisible, selectedItem }) {
-  if (!selectedItem) return null;
-
-  // Helper function to display size in full
-  function sizeInitialPopup(sizeInitial) {
-    if (sizeInitial === "s") return "Small";
-    if (sizeInitial === "m") return "Medium";
-    if (sizeInitial === "l") return "Large";
-    if (sizeInitial === "xl") return "X Large";
-  }
-
-  return (
-    <div className={`bag-popup ${bagPopupVisible ? "" : "hidden"}`}>
-      <img src={selectedItem.img} alt={`${selectedItem.band} Shirt`}/>
-      <p className="item-added-msg">Shirt added to your bag.</p>
-      <p className="item-added-size">{sizeInitialPopup(selectedItem.size)}</p>
-      <p className="item-added-qty-price">Items: {selectedItem.quantity} | ${selectedItem.quantity * selectedItem.price}</p>
-    </div>
-  );
-}
-
-function Main({ handleAddToBagPopup }) {
+function Main() {
   return (
     <main>
       {shirts.map((shirt) => (
         <div className="shirt-container" key={shirt.id}>
-          <ShirtContent
-            band={shirt.band}
-            CSQ={shirt.CSQ}
-            price={shirt.price}
-            handleAddToBagPopup={handleAddToBagPopup}
-          />
+          <ShirtContent band={shirt.band} CSQ={shirt.CSQ} price={shirt.price} />
         </div>
       ))}
     </main>
   );
 }
 
-function ShirtContent({ band, CSQ, price, handleAddToBagPopup }) {
+function ShirtContent({ band, CSQ, price }) {
   const [selectColorIndex, setSelectColorIndex] = useState(0);
   const [selectSize, setSelectSize] = useState(CSQ[0].SQ[0].size);
   const [selectQuantity, setSelectQuantity] = useState(1);
   const [availableUnits, setAvailableUnits] = useState(CSQ[0].SQ[0].quantity);
+
+  // Hook to log current state to the console after updating
+  /* useEffect(() => {
+    console.log("Selected size:", selectSize);
+  }, [selectSize]); */
 
   function handleSelectColor(index) {
     setSelectColorIndex(index);
@@ -186,9 +158,11 @@ function ShirtContent({ band, CSQ, price, handleAddToBagPopup }) {
   function handleSelectSize(event) {
     const selectedSize = event.target.value;
     setSelectSize(selectedSize);
+    /* console.log(selectSize) // shows value of previous state */
 
     // Update the available units based on the selected size
     const sizeItem = CSQ[selectColorIndex].SQ.find(item => item.size === selectedSize);
+    /* console.log(sizeItem); */
     if (sizeItem) {
       setAvailableUnits(sizeItem.quantity);
     }
@@ -201,14 +175,8 @@ function ShirtContent({ band, CSQ, price, handleAddToBagPopup }) {
 
   const selectedColor = CSQ[selectColorIndex];
 
-  function handleAddToBagClick() {
-    const selectedItem = {
-      img: selectedColor.img,
-      size: selectSize,
-      quantity: selectQuantity,
-      price: price,
-    };
-    handleAddToBagPopup(selectedItem);
+  function handleAddToBag() {
+    console.log(band, selectedColor.color, selectSize, selectQuantity, price);
   }
 
   // Helper function to determine text color based on background color
@@ -236,7 +204,7 @@ function ShirtContent({ band, CSQ, price, handleAddToBagPopup }) {
         selectSize={selectSize}
         onSelectSize={handleSelectSize}
         sizes={selectedColor.SQ}
-        onAddtoBag={handleAddToBagClick}
+        onAddtoBag={handleAddToBag}
       />
       <div className="color-selection">
         {CSQ.map((colorItem, index) => (

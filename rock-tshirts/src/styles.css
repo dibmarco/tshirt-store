@@ -62,6 +62,41 @@ header > nav > ul > li {
   padding: 0.2rem 0;
 }
 
+.bag-popup {
+  position: absolute;
+  top: 7rem;
+  right: 37%;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+
+  width: 15rem;
+  background-color: white;
+  padding: 0.5rem;
+
+  border: 1px solid black;
+  border-radius: 0 0 5px 5px;
+  z-index: 1;
+
+  transition: all 0.5s ease;
+}
+
+.bag-popup > img {
+  width: 4rem;
+}
+
+.item-added-msg {
+  align-self: center;
+  justify-self: center;
+  padding-left: 0.5rem;
+
+  font-size: 0.8rem;
+}
+
+.item-added-size, .item-added-qty-price {
+  text-align: center;
+}
+
 main {
   /* display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -322,4 +357,8 @@ footer {
   gap: 2.5rem;
 
   padding: 1rem;
+}
+
+.hidden {
+  opacity: 0;
 }
