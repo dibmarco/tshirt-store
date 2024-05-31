@@ -156,12 +156,13 @@ function ShirtContent({ band, CSQ, price }) {
   }
 
   function handleSelectSize(event) {
-    const newSize = event.target.value;
-    setSelectSize(newSize);
+    const selectedSize = event.target.value;
+    setSelectSize(selectedSize);
     /* console.log(selectSize) // shows value of previous state */
 
     // Update the available units based on the selected size
-    const sizeItem = CSQ[selectColorIndex].SQ.find(item => item.size === newSize);
+    const sizeItem = CSQ[selectColorIndex].SQ.find(item => item.size === selectedSize);
+    /* console.log(sizeItem); */
     if (sizeItem) {
       setAvailableUnits(sizeItem.quantity);
     }
