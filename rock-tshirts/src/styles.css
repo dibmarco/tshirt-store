@@ -58,6 +58,10 @@ header > nav > ul {
   font-size: 1.5rem;
 }
 
+header > nav > ul > li {
+  padding: 0.2rem 0;
+}
+
 main {
   /* display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -287,7 +291,7 @@ main {
   text-align: center;
 }
 
-.addtocart-btn {
+.addtobag-btn {
   display: flex;
   align-items: center;
   justify-content: center;

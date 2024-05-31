@@ -117,8 +117,8 @@ function Header() {
       <h1>Rock T-Shirts</h1>
       <nav>
         <ul>
-          <li>Home</li>
           <li>About</li>
+          <li>Your Bag <i className="fa-solid fa-bag-shopping"></i></li>
         </ul>
       </nav>
     </header>
@@ -279,7 +279,7 @@ function ShirtDrawer({ quantity, onSelectQuantity, availableUnits, selectSize, o
             +
           </div>
         </div>
-        <button className="addtocart-btn">Add to Cart</button>
+        <button className="addtobag-btn">Add to Bag</button>
       </div>
     </div>
   );
