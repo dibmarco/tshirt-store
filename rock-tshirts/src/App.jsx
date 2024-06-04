@@ -96,9 +96,17 @@ const shirts = [
   },
 ];
 
+// Helper function to display size in full
+function sizeInitial(sizeInitial) {
+  if (sizeInitial === "s") return "Small";
+  if (sizeInitial === "m") return "Medium";
+  if (sizeInitial === "l") return "Large";
+  if (sizeInitial === "xl") return "X Large";
+}
+
 function App() {
-  const [bagPopupVisible, setBagPopupVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [bagPopupVisible, setBagPopupVisible] = useState(false);
 
   function handleAddToBagPopup(item) {
     setSelectedItem(item);
@@ -135,19 +143,11 @@ function Header() {
 function BagPopUp({ bagPopupVisible, selectedItem }) {
   if (!selectedItem) return null;
 
-  // Helper function to display size in full
-  function sizeInitialPopup(sizeInitial) {
-    if (sizeInitial === "s") return "Small";
-    if (sizeInitial === "m") return "Medium";
-    if (sizeInitial === "l") return "Large";
-    if (sizeInitial === "xl") return "X Large";
-  }
-
   return (
     <div className={`bag-popup ${bagPopupVisible ? "" : "hidden"}`}>
       <img src={selectedItem.img} alt={`${selectedItem.band} Shirt`}/>
       <p className="item-added-msg">Shirt added to your bag.</p>
-      <p className="item-added-size">{sizeInitialPopup(selectedItem.size)}</p>
+      <p className="item-added-size">{sizeInitial(selectedItem.size)}</p>
       <p className="item-added-qty-price">Items: {selectedItem.quantity} | ${selectedItem.quantity * selectedItem.price}</p>
     </div>
   );
@@ -273,14 +273,6 @@ function ShirtDrawer({ quantity, onSelectQuantity, availableUnits, selectSize, o
     if (quantity > 1) {
       onSelectQuantity(quantity - 1);
     }
-  }
-
-  // Helper function to display size in full
-  function sizeInitial(sizeInitial) {
-    if (sizeInitial === "s") return "Small";
-    if (sizeInitial === "m") return "Medium";
-    if (sizeInitial === "l") return "Large";
-    if (sizeInitial === "xl") return "X Large";
   }
 
   return (
